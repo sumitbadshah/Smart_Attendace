@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#ffd9e1",
+                        "outline-variant": "#c7c4d8",
+                        "surface-container": "#efecff",
+                        "inverse-surface": "#2f2f41",
+                        "inverse-primary": "#c4c0ff",
+                        "on-secondary-fixed-variant": "#8c0a46",
+                        "surface-container-low": "#f5f2ff",
+                        "on-background": "#1a1a2b",
+                        "tertiary-fixed": "#7cf6ec",
+                        "secondary-fixed-dim": "#ffb1c5",
+                        "surface-container-highest": "#e2e0f8",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-tint": "#4f44e2",
+                        "on-primary-fixed": "#100069",
+                        "secondary-container": "#ff6b9d",
+                        "primary-fixed": "#e3dfff",
+                        "on-surface-variant": "#464555",
+                        "on-secondary-container": "#6e0034",
+                        "background": "#fcf8ff",
+                        "inverse-on-surface": "#f2efff",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#5dd9d0",
+                        "surface": "#fcf8ff",
+                        "on-primary-fixed-variant": "#3622ca",
+                        "on-tertiary-container": "#f3fffd",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e2e0f8",
+                        "on-tertiary-fixed-variant": "#00504c",
+                        "primary-fixed-dim": "#c4c0ff",
+                        "primary-container": "#675df9",
+                        "on-secondary-fixed": "#3f001b",
+                        "secondary": "#ac2a5d",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#fffbff",
+                        "surface-container-high": "#e8e6fe",
+                        "error-container": "#ffdad6",
+                        "primary": "#4d41df",
+                        "tertiary": "#006762",
+                        "on-tertiary-fixed": "#00201e",
+                        "tertiary-container": "#00837c",
+                        "on-surface": "#1a1a2b",
+                        "surface-dim": "#dad8ef",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#fcf8ff",
+                        "outline": "#777587"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "80px",
+                        "md": "24px",
+                        "sm": "16px",
+                        "gutter": "24px",
+                        "xs": "8px",
+                        "lg": "48px",
+                        "container-max": "1280px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background: linear-gradient(135deg, #fcf8ff 0%, #efecff 100%);
+            min-height: 100vh;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+        }
+        .camera-overlay {
+            background: linear-gradient(0deg, rgba(77, 65, 223, 0.2) 0%, transparent 100%);
+        }
+        .scan-line {
+            height: 2px;
+            background: #6C63FF;
+            box-shadow: 0 0 15px #6C63FF;
+            position: absolute;
+            width: 100%;
+            animation: scan 3s linear infinite;
+        }
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+        .glow-hover:hover {
+            box-shadow: 0 0 20px rgba(108, 99, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- SideNavBar -->
+<aside class="h-full w-64 fixed left-0 top-0 border-r border-white/30 bg-white/15 backdrop-blur-[20px] shadow-[0_8px_32px_0_rgba(108,99,255,0.1)] flex flex-col p-md gap-sm z-50">
+<div class="mb-lg px-xs">
+<h1 class="font-headline-lg text-headline-lg bg-gradient-to-br from-[#6C63FF] to-[#FF6B9D] bg-clip-text text-transparent">AttendX</h1>
+<p class="font-body-sm text-on-surface-variant opacity-70">Smart Portal</p>
+</div>
+<nav class="flex flex-col gap-xs flex-1">
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:text-primary transition-all duration-300 rounded-xl hover:bg-white/25 active:scale-95" href="/">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-primary font-bold bg-primary/10 rounded-xl shadow-[0_0_15px_rgba(108,99,255,0.1)] active:scale-95 transition-transform" href="/attendance">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+<span class="font-body-md">Attendance</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:text-primary transition-all duration-300 rounded-xl hover:bg-white/25 active:scale-95" href="/register">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-body-md">Students</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:text-primary transition-all duration-300 rounded-xl hover:bg-white/25 active:scale-95" href="/reports">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-body-md">Reports</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:text-primary transition-all duration-300 rounded-xl hover:bg-white/25 active:scale-95" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</nav>
+<button onclick="window.location.href='/attendance'" class="w-full py-sm rounded-xl bg-gradient-to-br from-[#6C63FF] to-[#FF6B9D] text-on-primary font-bold mb-md shadow-lg active:scale-95 transition-all">
+            Take Attendance
+        </button>
+<div class="border-t border-white/20 pt-md flex flex-col gap-xs">
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:text-primary transition-all duration-300 rounded-xl hover:bg-white/25" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md">Help</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:text-primary transition-all duration-300 rounded-xl hover:bg-white/25" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 left-64 h-20 border-b border-white/30 bg-white/15 backdrop-blur-[20px] shadow-sm flex items-center justify-between px-gutter z-40">
+<div class="flex items-center gap-lg flex-1">
+<h2 class="font-headline-sm text-headline-sm font-bold text-on-surface">Mark Attendance</h2>
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-xl pr-md py-xs bg-white/15 border border-white/30 rounded-full focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all" placeholder="Search student or staff..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-sm">
+<a class="text-primary border-b-2 border-primary pb-1 font-label-md" href="#">Live View</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md" href="#">Schedule</a>
+</div>
+<div class="flex items-center gap-sm ml-md pr-md border-r border-white/30">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary p-xs rounded-full hover:bg-white/20">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary p-xs rounded-full hover:bg-white/20">dark_mode</button>
+</div>
+<div class="flex items-center gap-sm pl-sm">
+<div class="text-right hidden xl:block">
+<p class="font-label-md text-on-surface">Prof. Anderson</p>
+<p class="text-[10px] text-on-surface-variant">Administrator</p>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-primary/30 object-cover" data-alt="A professional headshot of a middle-aged male professor with glasses and a friendly smile. He is wearing a dark navy blazer over a light blue shirt. The background is a soft-focus academic office with books and a warm ambient light. The image style is crisp, high-definition, and clean to match a premium corporate UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmLEjnlGFg6-JhBjUrp2AmgkX-biRutsrPs7cYJ9rMjrHrUMNzNzIyjg0F7kO3BLruoUaHRTCM6tU3V9nkgHLNNqQ9M_fllGGgtoO-wc59G8TRqrzCL309SJKTpf25SQF84ItmS5dtcNEQGhY4R4_DB2i_zcsqaqVPDrX0kMwRcK__X_yeJzSc-yPCE4pLxghFZ_Uc_F8nVG1H2lQUMNxzMEF-tblOS7Aro6iz5o6F9VQI3DWRag3J"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-64 pt-20 p-gutter min-h-screen">
+<div class="max-w-container-max mx-auto mt-sm">
+<div class="grid grid-cols-12 gap-md">
+<!-- Left Column: Camera Feed -->
+<div class="col-span-12 lg:col-span-7 flex flex-col gap-md">
+<div class="glass-panel p-md relative overflow-hidden group">
+<div class="flex items-center justify-between mb-sm">
+<div class="flex items-center gap-sm">
+<span class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
+<span class="font-label-md text-primary tracking-widest uppercase">Live AI Scanner</span>
+</div>
+<div class="flex gap-xs">
+<span class="px-xs py-[2px] bg-white/20 rounded text-[10px] font-bold">1080P</span>
+<span class="px-xs py-[2px] bg-white/20 rounded text-[10px] font-bold">60FPS</span>
+</div>
+</div>
+<!-- Camera Viewport -->
+<div class="relative rounded-xl overflow-hidden aspect-video bg-black/80 shadow-inner">
+<img id="video-feed" class="w-full h-full object-cover" src="/video_feed" alt="Live AI Camera Feed"/>
+<!-- AI Overlays -->
+<div class="absolute inset-0 pointer-events-none">
+<div class="scan-line"></div>
+<div class="absolute top-md left-md p-sm glass-panel bg-white/10 backdrop-blur-sm border-white/20">
+<div class="flex items-center gap-xs mb-xs">
+<span class="material-symbols-outlined text-primary text-sm">person_search</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Tracking Identity</span>
+</div>
+<p class="text-xs font-mono">Confidence: 98.4%</p>
+</div>
+<div class="absolute bottom-md left-1/2 -translate-x-1/2 w-3/4 flex justify-between">
+<div class="p-xs px-md glass-panel bg-white/10 text-white text-[10px] font-bold">FOCAL_LENGTH: 35mm</div>
+<div class="p-xs px-md glass-panel bg-white/10 text-white text-[10px] font-bold">ID_MATCH: READY</div>
+</div>
+<!-- Face Bracket Corners -->
+<div class="absolute top-1/4 left-1/4 w-12 h-12 border-t-2 border-l-2 border-primary"></div>
+<div class="absolute top-1/4 right-1/4 w-12 h-12 border-t-2 border-r-2 border-primary"></div>
+<div class="absolute bottom-1/4 left-1/4 w-12 h-12 border-b-2 border-l-2 border-primary"></div>
+<div class="absolute bottom-1/4 right-1/4 w-12 h-12 border-b-2 border-r-2 border-primary"></div>
+</div>
+</div>
+<div class="mt-md flex gap-md">
+<button id="capture-identity" class="flex-1 py-md rounded-xl bg-gradient-to-r from-[#6C63FF] to-[#FF6B9D] text-on-primary font-bold shadow-xl hover:shadow-[#6C63FF]/30 active:scale-95 transition-all flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined">face</span>
+                                Capture Identity
+                            </button>
+<button onclick="document.getElementById('video-feed').src='/video_feed?t=' + new Date().getTime();" class="w-16 h-full glass-panel flex items-center justify-center text-primary hover:bg-white/40 transition-colors">
+<span class="material-symbols-outlined">refresh</span>
+</button>
+</div>
+</div>
+<!-- Statistics Bar -->
+<div class="grid grid-cols-3 gap-md">
+<div class="glass-panel p-md flex flex-col gap-xs">
+<span class="text-on-surface-variant font-label-md">Session Total</span>
+<span class="font-headline-md text-primary" id="stats-session-total">0</span>
+</div>
+<div class="glass-panel p-md flex flex-col gap-xs">
+<span class="text-on-surface-variant font-label-md">Identified</span>
+<span class="font-headline-md text-tertiary" id="stats-identified">0</span>
+</div>
+<div class="glass-panel p-md flex flex-col gap-xs">
+<span class="text-on-surface-variant font-label-md">Unrecognized</span>
+<span class="font-headline-md text-secondary" id="stats-unrecognized">0</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Manual Entry & Logs -->
+<div class="col-span-12 lg:col-span-5 flex flex-col gap-md">
+<!-- Manual Entry Card -->
+<div class="glass-panel p-md">
+<h3 class="font-headline-sm mb-md flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">keyboard</span>
+                            Manual Entry
+                        </h3>
+<div class="flex flex-col gap-sm">
+<div>
+<label class="font-label-md text-on-surface-variant block mb-xs">Student / Employee ID</label>
+<input id="manual-student-id" class="w-full bg-white/20 border border-white/30 rounded-xl px-md py-sm focus:ring-2 focus:ring-primary/50 transition-all font-body-sm text-on-surface" placeholder="e.g. AX-99023" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-sm">
+<button id="btn-manual-verify" class="py-sm rounded-xl border-2 border-primary text-primary font-bold hover:bg-primary/10 transition-colors active:scale-95">Verify</button>
+<button id="btn-manual-log" class="py-sm rounded-xl bg-primary text-on-primary font-bold shadow-md hover:opacity-90 transition-opacity active:scale-95">Log Entry</button>
+</div>
+</div>
+</div>
+<!-- Recent Logs Card -->
+<div class="glass-panel flex-1 flex flex-col min-h-[400px]">
+<div class="p-md border-b border-white/20 flex items-center justify-between">
+<h3 class="font-headline-sm flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">history</span>
+                                Recent Logs
+                            </h3>
+<button onclick="window.location.href='/reports'" class="text-primary font-label-md hover:underline">View All</button>
+</div>
+<div class="flex-1 overflow-y-auto p-md custom-scrollbar">
+<div class="flex flex-col gap-md" id="recent-logs-container">
+<!-- Log Item 1 -->
+<div class="flex items-center justify-between p-sm rounded-xl bg-white/10 hover:bg-white/20 transition-all border border-transparent hover:border-white/30">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center overflow-hidden border border-primary/20">
+<img class="w-full h-full object-cover" data-alt="A portrait of a young female student with auburn hair and glasses. She is smiling warmly and wearing a green sweater. The background is a softly blurred modern classroom with light wood textures and plants. The lighting is natural and bright, conveying a positive academic atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiIQhEOVnx4kPAVpXcpbRcX0bPwp2rb0kxC3YWdSARdYzmfF4QLy7pilRWB1oKYn381dPqkfpq3446ypTi4bz4U4gocFm5sSaLASqVdtRCcwXd7rtZBOvspGtrKQ0BAQAShnMMkAEuH933pJcorpBKlqcCaeGDrTAeiA0pOG-MUSFHSdiiTuc0HulE8AHNe-zuLMmZKeEyesxbVH1-eWjGhH2UozVkV9nRLggOSEKXRuVq9tlz9woN"/>
+</div>
+<div>
+<p class="font-body-md font-bold">Elena Rodriguez</p>
+<p class="text-[11px] text-on-surface-variant">ID: AX-2201 • CS Dept.</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-md text-primary">09:42 AM</p>
+<span class="px-xs py-[2px] rounded-full bg-tertiary/20 text-tertiary text-[10px] font-bold">PRESENT</span>
+</div>
+</div>
+<!-- Log Item 2 -->
+<div class="flex items-center justify-between p-sm rounded-xl bg-white/10 hover:bg-white/20 transition-all border border-transparent hover:border-white/30">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center overflow-hidden border border-primary/20">
+<img class="w-full h-full object-cover" data-alt="A portrait of a young male student with dark curly hair and a friendly expression. He is wearing a grey hoodie and has a backpack strap visible. The background is a modern university lounge with blurred geometric art. The image is clean and well-lit, matching the glassmorphism UI style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0gXQO4nxxj1KCUxV_l4Y6Myrnfj1zmIopXOf0ngtK0h2luKfNTEnQY465j0g-6804NkpaKFe3Be9CeBsDVYP4UJ7NsHqGR-tA1luaCwDuGWCt0-zNvPRSz5W3QAHT5UVu1Tg9_NbX6RXRg2NVo4KyCPfDx4-fvM-9uSjUI8o91EZJ0DnIfynkKqgyi2qbqvJUgI0VWmnhI5t7gTTJ3Udsk7_OVPmOf2nn2y8bL5kbcfHgiRFiwfM7"/>
+</div>
+<div>
+<p class="font-body-md font-bold">Marcus Chen</p>
+<p class="text-[11px] text-on-surface-variant">ID: AX-2205 • Design</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-md text-primary">09:40 AM</p>
+<span class="px-xs py-[2px] rounded-full bg-tertiary/20 text-tertiary text-[10px] font-bold">PRESENT</span>
+</div>
+</div>
+<!-- Log Item 3 -->
+<div class="flex items-center justify-between p-sm rounded-xl bg-white/10 hover:bg-white/20 transition-all border border-transparent hover:border-white/30">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center overflow-hidden border border-secondary/20">
+<div class="material-symbols-outlined text-secondary opacity-50">person_off</div>
+</div>
+<div>
+<p class="font-body-md font-bold">Unrecognized User</p>
+<p class="text-[11px] text-secondary">Flagged for Review</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-md text-secondary">09:38 AM</p>
+<span class="px-xs py-[2px] rounded-full bg-secondary/20 text-secondary text-[10px] font-bold">FLAGGED</span>
+</div>
+</div>
+<!-- Log Item 4 -->
+<div class="flex items-center justify-between p-sm rounded-xl bg-white/10 hover:bg-white/20 transition-all border border-transparent hover:border-white/30">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center overflow-hidden border border-primary/20">
+<img class="w-full h-full object-cover" data-alt="A portrait of a smiling woman with blonde hair, wearing professional business attire. She has a lanyard with an ID badge around her neck. The background is a clean, glass-partitioned corporate office. The lighting is soft and airy, consistent with a high-end digital dashboard aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2A0Cj8Hbl6kbb8VXlZzfZ8r31vAFqdn8O2en4MjarijilNNUFOvmPJLJq75KxkpFhRJAYOo6sI9PqKuhRXWksKELj-sggPMWqT8Rmog3CJ_gnII4WbcYu1Myhyx6WXx3cvWa1ReQz9VtNlNCkM5Ws3VKQLJBVrTNkY2H_6FdZSjpk13Au-fcuHDW_ZtihHvCi-uqfMTfi6UvmI30ooQCBYoN7gmHsB6_12-Rj2OP6O8ZuRJ_rhZ0e"/>
+</div>
+<div>
+<p class="font-body-md font-bold">Sarah Jenkins</p>
+<p class="text-[11px] text-on-surface-variant">ID: AX-2188 • Admin Staff</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-md text-primary">09:35 AM</p>
+<span class="px-xs py-[2px] rounded-full bg-tertiary/20 text-tertiary text-[10px] font-bold">PRESENT</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Background Elements for Depth -->
+<div class="fixed top-20 right-20 w-96 h-96 bg-primary/5 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
+<div class="fixed bottom-20 left-80 w-64 h-64 bg-secondary-container/5 rounded-full blur-[80px] -z-10 pointer-events-none"></div>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const captureBtn = document.getElementById('capture-identity');
+            const manualInput = document.getElementById('manual-student-id');
+            const btnVerify = document.getElementById('btn-manual-verify');
+            const btnLog = document.getElementById('btn-manual-log');
+            const recentLogsContainer = document.getElementById('recent-logs-container');
+
+            // Flash visual feedback
+            function triggerFlash() {
+                const flash = document.createElement('div');
+                flash.className = 'absolute inset-0 bg-white z-50 transition-opacity duration-300 opacity-75';
+                const viewport = document.querySelector('.relative.rounded-xl.overflow-hidden.aspect-video');
+                if (viewport) {
+                    viewport.appendChild(flash);
+                    setTimeout(() => {
+                        flash.style.opacity = '0';
+                        setTimeout(() => flash.remove(), 300);
+                    }, 50);
+                }
+            }
+
+            captureBtn.addEventListener('click', () => {
+                triggerFlash();
+                // Send capture request
+                fetch('/api/capture_frame', { method: 'POST' })
+                    .then(res => res.json())
+                    .then(data => {
+                        showToast(data.message, data.success ? 'success' : 'error');
+                    })
+                    .catch(err => {
+                        showToast('Error capturing frame', 'error');
+                    });
+            });
+
+            // Manual Verify
+            btnVerify.addEventListener('click', () => {
+                const val = manualInput.value.trim();
+                if (!val) {
+                    showToast('Please enter a Student ID', 'warning');
+                    return;
+                }
+                fetch('/api/verify_student?student_id=' + encodeURIComponent(val))
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            showToast(`Student found: ${data.name} (${data.department})`, 'success');
+                        } else {
+                            showToast(data.message, 'error');
+                        }
+                    });
+            });
+
+            // Manual Log
+            btnLog.addEventListener('click', () => {
+                const val = manualInput.value.trim();
+                if (!val) {
+                    showToast('Please enter a Student ID', 'warning');
+                    return;
+                }
+                fetch('/api/manual_entry', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ student_id: val })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        showToast(data.message, 'success');
+                        manualInput.value = '';
+                        fetchSessionData();
+                    } else {
+                        showToast(data.message, 'error');
+                    }
+                });
+            });
+
+            // Fetch session status and live transactions
+            function fetchSessionData() {
+                fetch('/api/attendance_session')
+                    .then(res => res.json())
+                    .then(data => {
+                        document.getElementById('stats-session-total').textContent = data.session_total;
+                        document.getElementById('stats-identified').textContent = data.identified;
+                        document.getElementById('stats-unrecognized').textContent = data.unrecognized;
+                        
+                        // Update boxes info
+                        if (data.recent_recognition) {
+                            document.getElementById('tracker-confidence').textContent = `Confidence: ${data.recent_recognition.confidence.toFixed(1)}%`;
+                            document.getElementById('tracker-match-status').textContent = `ID_MATCH: ${data.recent_recognition.name.toUpperCase()}`;
+                        } else {
+                            document.getElementById('tracker-confidence').textContent = `Confidence: --%`;
+                            document.getElementById('tracker-match-status').textContent = `ID_MATCH: DETECTING`;
+                        }
+
+                        // Load list
+                        recentLogsContainer.innerHTML = '';
+                        if (data.logs.length === 0) {
+                            recentLogsContainer.innerHTML = '<p class="text-xs text-outline text-center py-4">No attendance registered yet in this session</p>';
+                            return;
+                        }
+                        
+                        data.logs.forEach(log => {
+                            const isUnknown = log.name === 'Unknown' || log.name === 'Unrecognized User';
+                            const defaultAvatar = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80';
+                            const avatar = log.image ? ('/api/student_image/' + log.face_id) : defaultAvatar;
+                            
+                            const row = document.createElement('div');
+                            row.className = "flex items-center justify-between p-sm rounded-xl bg-white/10 hover:bg-white/20 transition-all border border-transparent hover:border-white/30 cursor-pointer";
+                            row.style.transition = 'transform 0.2s';
+                            row.addEventListener('mouseenter', () => row.style.transform = 'translateX(5px)');
+                            row.addEventListener('mouseleave', () => row.style.transform = 'translateX(0)');
+                            
+                            row.innerHTML = `
+                                <div class="flex items-center gap-sm">
+                                    <div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center overflow-hidden border ${isUnknown ? 'border-secondary/20' : 'border-primary/20'}">
+                                        ${isUnknown ? '<span class="material-symbols-outlined text-secondary opacity-50">person_off</span>' : `<img class="w-full h-full object-cover" src="${avatar}" />`}
+                                    </div>
+                                    <div>
+                                        <p class="font-body-md font-bold text-on-surface">${log.name}</p>
+                                        <p class="text-[11px] text-on-surface-variant">ID: ${log.face_id} • ${log.department || 'N/A'}</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-label-md text-primary">${log.time}</p>
+                                    <span class="px-xs py-[2px] rounded-full ${isUnknown ? 'bg-secondary/20 text-secondary' : 'bg-tertiary/20 text-tertiary'} text-[10px] font-bold uppercase">${log.status}</span>
+                                </div>
+                            `;
+                            recentLogsContainer.appendChild(row);
+                        });
+                    });
+            }
+
+            // Client-side Toast notification manager
+            function showToast(msg, type = 'info') {
+                let toast = document.getElementById('app-notification');
+                if(!toast) {
+                    toast = document.createElement('div');
+                    toast.id = 'app-notification';
+                    toast.className = 'fixed bottom-md right-md p-md glass-panel z-50 transition-all transform translate-y-10 opacity-0 pointer-events-none w-80 shadow-2xl';
+                    document.body.appendChild(toast);
+                }
+                
+                let icon = 'info';
+                let iconColor = 'text-primary';
+                if (type === 'success') { icon = 'check_circle'; iconColor = 'text-tertiary'; }
+                if (type === 'error') { icon = 'error'; iconColor = 'text-error'; }
+                if (type === 'warning') { icon = 'warning'; iconColor = 'text-secondary'; }
+                
+                toast.innerHTML = `
+                    <div class="flex items-start gap-sm">
+                        <span class="material-symbols-outlined ${iconColor}">${icon}</span>
+                        <div class="flex-1">
+                            <p class="text-xs font-bold uppercase tracking-wider ${iconColor}">${type}</p>
+                            <p class="text-xs text-on-surface mt-0.5">${msg}</p>
+                        </div>
+                    </div>
+                `;
+                
+                toast.classList.remove('translate-y-10', 'opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                    toast.classList.add('translate-y-10', 'opacity-0', 'pointer-events-none');
+                }, 4000);
+            }
+
+            // Initial load & poller
+            fetchSessionData();
+            setInterval(fetchSessionData, 2000);
+        });
+    </script>
+</body></html>

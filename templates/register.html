@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AttendX | Student Registration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(108, 99, 255, 0.05);
+        }
+        .bg-mesh {
+            background-color: #fcf8ff;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(108, 99, 255, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(255, 107, 157, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(108, 99, 255, 0.1) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(255, 107, 157, 0.15) 0px, transparent 50%);
+        }
+        .face-scan-ring {
+            animation: rotate 4s linear infinite;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .scan-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #6C63FF, transparent);
+            animation: scan 3s ease-in-out infinite;
+            position: absolute;
+            width: 100%;
+            z-index: 20;
+        }
+        @keyframes scan {
+            0%, 100% { top: 10%; opacity: 0; }
+            50% { top: 90%; opacity: 1; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#ffd9e1",
+                        "outline-variant": "#c7c4d8",
+                        "surface-container": "#efecff",
+                        "inverse-surface": "#2f2f41",
+                        "inverse-primary": "#c4c0ff",
+                        "on-secondary-fixed-variant": "#8c0a46",
+                        "surface-container-low": "#f5f2ff",
+                        "on-background": "#1a1a2b",
+                        "tertiary-fixed": "#7cf6ec",
+                        "secondary-fixed-dim": "#ffb1c5",
+                        "surface-container-highest": "#e2e0f8",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-tint": "#4f44e2",
+                        "on-primary-fixed": "#100069",
+                        "secondary-container": "#ff6b9d",
+                        "primary-fixed": "#e3dfff",
+                        "on-surface-variant": "#464555",
+                        "on-secondary-container": "#6e0034",
+                        "background": "#fcf8ff",
+                        "inverse-on-surface": "#f2efff",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#5dd9d0",
+                        "surface": "#fcf8ff",
+                        "on-primary-fixed-variant": "#3622ca",
+                        "on-tertiary-container": "#f3fffd",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e2e0f8",
+                        "on-tertiary-fixed-variant": "#00504c",
+                        "primary-fixed-dim": "#c4c0ff",
+                        "primary-container": "#675df9",
+                        "on-secondary-fixed": "#3f001b",
+                        "secondary": "#ac2a5d",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#fffbff",
+                        "surface-container-high": "#e8e6fe",
+                        "error-container": "#ffdad6",
+                        "primary": "#4d41df",
+                        "tertiary": "#006762",
+                        "on-tertiary-fixed": "#00201e",
+                        "tertiary-container": "#00837c",
+                        "on-surface": "#1a1a2b",
+                        "surface-dim": "#dad8ef",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#fcf8ff",
+                        "outline": "#777587"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "80px",
+                        "md": "24px",
+                        "sm": "16px",
+                        "gutter": "24px",
+                        "xs": "8px",
+                        "lg": "48px",
+                        "container-max": "1280px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-mesh min-h-screen text-on-surface font-body-md overflow-x-hidden">
+<!-- SIDEBAR NAVIGATION -->
+<aside class="h-full w-64 fixed left-0 top-0 border-r border-white/30 bg-white/15 backdrop-blur-[20px] flex flex-col p-md gap-sm z-50 shadow-[0_8px_32px_0_rgba(108,99,255,0.1)]">
+<div class="mb-lg">
+<h1 class="font-headline-lg text-headline-lg bg-gradient-to-br from-[#6C63FF] to-[#FF6B9D] bg-clip-text text-transparent">AttendX</h1>
+<p class="font-body-sm text-on-surface-variant">Smart Portal</p>
+</div>
+<nav class="flex-1 flex flex-col gap-xs">
+<!-- Dashboard -->
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:text-primary transition-all duration-300 rounded-xl hover:bg-white/25 active:scale-95" href="/">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<!-- Attendance -->
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:text-primary transition-all duration-300 rounded-xl hover:bg-white/25 active:scale-95" href="/attendance">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-body-md">Attendance</span>
+</a>
+<!-- Students (Active) -->
+<a class="flex items-center gap-sm p-sm text-primary font-bold bg-primary/10 rounded-xl shadow-[0_0_15px_rgba(108,99,255,0.1)] active:scale-95 transition-all" href="/register">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-body-md">Students</span>
+</a>
+<!-- Reports -->
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:text-primary transition-all duration-300 rounded-xl hover:bg-white/25 active:scale-95" href="/reports">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-body-md">Reports</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:text-primary transition-all duration-300 rounded-xl hover:bg-white/25 active:scale-95" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-xs pt-md border-t border-white/20">
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:text-primary transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md">Help</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:text-error transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- TOPBAR NAVIGATION -->
+<header class="fixed top-0 right-0 left-64 h-20 bg-white/15 backdrop-blur-[20px] border-b border-white/30 z-40 flex items-center justify-between px-gutter">
+<div class="flex items-center gap-md">
+<div class="relative focus-within:ring-2 focus-within:ring-primary/50 rounded-full transition-all">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="bg-white/20 border-none rounded-full py-2 pl-10 pr-4 w-64 focus:ring-0 font-body-sm text-on-surface" placeholder="Search student records..." type="text"/>
+</div>
+<nav class="flex items-center gap-md ml-4">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Live View</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Schedule</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined p-xs text-on-surface-variant hover:text-primary transition-all">notifications</button>
+<button class="material-symbols-outlined p-xs text-on-surface-variant hover:text-primary transition-all">dark_mode</button>
+<div class="h-10 w-10 rounded-full border-2 border-primary/20 overflow-hidden shadow-sm">
+<img class="h-full w-full object-cover" data-alt="A professional headshot of a female administrative officer in a modern workspace, with soft ambient purple lighting and a high-key background. The image is clean, sharp, and reflects a technologically advanced school environment with glass elements and subtle UI overlays." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDno7yOLm8m3ki4vNF3FchBKtvTgehg2zHi7yJeU4T9ISP6Vp0pU4JqO7jbOkNYpd16Xo8uUiRXRT37J1O_UwvXf0QI5sClSfuxhPqu0wWEK49BCPwbiNKVMFqO2_0m_EJAkzjem48ul6ub-ulfXAx4jYXDsFxKspMft7jJNo5CzAIX8WE3gfws4dd4OUfYR--SLhbRLuoVNX1OYb6okM6xtsaQofsg1qIDQpbERjfbSeGpiwpBGEtY"/>
+</div>
+</div>
+</header>
+<!-- MAIN CONTENT CANVAS -->
+<main class="ml-64 pt-20 p-xl flex items-center justify-center min-h-[calc(100vh-80px)] relative">
+<!-- Floating Ambient Background Elements -->
+<div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-secondary/5 rounded-full blur-[100px] pointer-events-none"></div>
+<!-- MAIN REGISTRATION CARD -->
+<div class="glass-card w-full max-w-5xl rounded-[32px] overflow-hidden flex flex-col relative z-10">
+<!-- Card Header -->
+<div class="p-lg border-b border-white/30">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Student Registration</h2>
+<p class="font-body-md text-on-surface-variant mt-xs">Enroll a new student into the AttendX biometric ecosystem.</p>
+</div>
+<!-- Content Split -->
+<div class="flex flex-col md:flex-row">
+<!-- LEFT: Face Data Capture -->
+<div class="w-full md:w-5/12 p-lg bg-white/10 flex flex-col items-center justify-center border-r border-white/20">
+<div class="relative group">
+<!-- Circular Preview Container -->
+<div class="w-64 h-64 rounded-full overflow-hidden relative border-4 border-white/50 shadow-2xl">
+<div class="scan-line"></div>
+<img id="register-video-feed" class="w-full h-full object-cover" src="/video_feed" alt="Biometric Face Alignment Guide"/>
+<!-- Alignment Guides Overlay -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="w-56 h-56 rounded-full border border-primary/40 border-dashed animate-pulse"></div>
+</div>
+</div>
+<!-- Rotating Biometric Ring -->
+<div class="absolute inset-[-20px] face-scan-ring border-[2px] border-primary/20 border-t-primary rounded-full pointer-events-none"></div>
+<div class="absolute inset-[-10px] face-scan-ring border-[1px] border-secondary/20 border-b-secondary rounded-full pointer-events-none" style="animation-direction: reverse; animation-duration: 6s;"></div>
+</div>
+<div class="mt-lg text-center">
+<span class="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary font-label-md text-label-md gap-2 border border-primary/20">
+<span class="material-symbols-outlined text-[18px]">photo_camera</span>
+                            Live Capture Active
+                        </span>
+<p class="mt-md text-body-sm font-body-sm text-on-surface-variant max-w-[240px]">Position student's face within the circle and ensure good lighting for optimal accuracy.</p>
+<button onclick="document.getElementById('register-video-feed').src='/video_feed?t=' + new Date().getTime();" class="mt-md flex items-center gap-2 font-label-md text-label-md text-primary hover:underline transition-all">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+                            Retake Sample
+                        </button>
+</div>
+</div>
+<!-- RIGHT: Detailed Registration Form -->
+<div class="w-full md:w-7/12 p-lg space-y-md">
+<div class="grid grid-cols-2 gap-md">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Full Name</label>
+<input id="reg-name" class="bg-white/30 border border-white/50 rounded-2xl p-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all font-body-md placeholder:text-outline-variant text-on-surface" placeholder="Johnathan Doe" type="text"/>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Student ID</label>
+<input id="reg-student-id" class="bg-white/30 border border-white/50 rounded-2xl p-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all font-body-md placeholder:text-outline-variant text-on-surface" placeholder="AX-2024-089" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Academic Year</label>
+<select id="reg-academic-year" class="bg-white/30 border border-white/50 rounded-2xl p-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all font-body-md appearance-none text-on-surface">
+<option value="Freshman (2024)">Freshman (2024)</option>
+<option value="Sophomore (2023)">Sophomore (2023)</option>
+<option value="Junior (2022)">Junior (2022)</option>
+<option value="Senior (2021)">Senior (2021)</option>
+</select>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Department</label>
+<select id="reg-department" class="bg-white/30 border border-white/50 rounded-2xl p-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all font-body-md appearance-none text-on-surface">
+<option value="Computer Science">Computer Science</option>
+<option value="Mechanical Eng.">Mechanical Eng.</option>
+<option value="Arts & Design">Arts &amp; Design</option>
+<option value="Business Admin">Business Admin</option>
+</select>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Institutional Email</label>
+<input id="reg-email" class="bg-white/30 border border-white/50 rounded-2xl p-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all font-body-md placeholder:text-outline-variant text-on-surface" placeholder="j.doe@attendx-edu.com" type="email"/>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Emergency Contact</label>
+<div class="flex gap-sm">
+<input id="reg-emergency-contact" class="flex-1 bg-white/30 border border-white/50 rounded-2xl p-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all font-body-md placeholder:text-outline-variant text-on-surface" placeholder="+1 (555) 000-0000" type="text"/>
+<button class="bg-white/40 p-sm rounded-2xl border border-white/50 hover:bg-white/60 transition-all">
+<span class="material-symbols-outlined text-primary">add_call</span>
+</button>
+</div>
+</div>
+<div class="pt-sm">
+<label class="flex items-start gap-sm cursor-pointer group">
+<input id="reg-consent" class="mt-1 w-5 h-5 rounded border-white/50 bg-white/30 text-primary focus:ring-primary/40" type="checkbox"/>
+<span class="text-body-sm text-on-surface-variant group-hover:text-on-surface transition-colors flex-1">I consent to the collection and processing of facial biometric data for attendance verification purposes as per the <a class="text-primary hover:underline" href="#">Privacy Policy</a>.</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Card Footer -->
+<div class="p-lg bg-white/10 flex items-center justify-between border-t border-white/30">
+<button onclick="window.location.href='/'" class="flex items-center gap-xs font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all active:scale-95">
+<span class="material-symbols-outlined">close</span>
+                    Discard Draft
+                </button>
+<div class="flex items-center gap-md">
+<button onclick="alert('Draft status saved locally'); font-body-sm" class="px-6 py-3 font-label-md text-label-md text-primary border-2 border-primary/40 rounded-2xl hover:bg-primary/5 transition-all active:scale-95">
+                        Save as Draft
+                    </button>
+<button id="btn-complete-registration" class="px-10 py-3 font-label-md text-label-md text-white font-bold bg-gradient-to-r from-[#6C63FF] to-[#FF6B9D] rounded-2xl shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all active:scale-95">
+                        Complete Registration
+                    </button>
+</div>
+</div>
+</div>
+<!-- Floating Quick Help Component -->
+<div class="fixed bottom-gutter right-gutter z-30">
+<button class="h-14 w-14 rounded-full bg-gradient-to-br from-[#6C63FF] to-[#FF6B9D] text-white flex items-center justify-center shadow-xl hover:scale-110 active:scale-90 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</button>
+</div>
+</main>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Micro-interaction for input glow
+            const inputs = document.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.addEventListener('focus', () => {
+                    input.parentElement.classList.add('scale-[1.01]');
+                    input.parentElement.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                });
+                input.addEventListener('blur', () => {
+                    input.parentElement.classList.remove('scale-[1.01]');
+                });
+            });
+
+            // Form Submit Logic
+            const mainBtn = document.getElementById('btn-complete-registration');
+            mainBtn.addEventListener('click', () => {
+                const name = document.getElementById('reg-name').value.trim();
+                const studentId = document.getElementById('reg-student-id').value.trim();
+                const academicYear = document.getElementById('reg-academic-year').value;
+                const department = document.getElementById('reg-department').value;
+                const email = document.getElementById('reg-email').value.trim();
+                const emergencyContact = document.getElementById('reg-emergency-contact').value.trim();
+                const consent = document.getElementById('reg-consent').checked;
+
+                if (!name) {
+                    showToast('Full Name is required', 'warning');
+                    return;
+                }
+                // Soft consent nudge — does NOT block registration
+                if (!consent) {
+                    showToast('Note: Biometric consent checkbox is unchecked — proceeding anyway.', 'info');
+                }
+
+                // Show processing indicator
+                const originalText = mainBtn.innerHTML;
+                mainBtn.disabled = true;
+                mainBtn.innerHTML = '<span class="material-symbols-outlined animate-spin align-middle mr-1">sync</span> Extracting Biometrics...';
+
+                // Call API
+                fetch('/api/register_student', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: name,
+                        student_id: studentId,
+                        academic_year: academicYear,
+                        department: department,
+                        email: email,
+                        emergency_contact: emergencyContact
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    mainBtn.disabled = false;
+                    mainBtn.innerHTML = originalText;
+                    if (data.success) {
+                        // Show the assigned/generated student ID back to the user
+                        const assignedId = data.student_id || studentId;
+                        showToast(data.message + (assignedId ? ` ID: ${assignedId}` : ''), 'success');
+                        // Populate ID field so user can copy it
+                        if (assignedId) {
+                            document.getElementById('reg-student-id').value = assignedId;
+                        }
+                        // Clear other fields but keep ID visible
+                        document.getElementById('reg-name').value = '';
+                        document.getElementById('reg-email').value = '';
+                        document.getElementById('reg-emergency-contact').value = '';
+                        document.getElementById('reg-consent').checked = false;
+                    } else {
+                        showToast(data.message, 'error');
+                    }
+                })
+                .catch(err => {
+                    mainBtn.disabled = false;
+                    mainBtn.innerHTML = originalText;
+                    showToast('Failed to register student. Connection error.', 'error');
+                });
+            });
+
+            // Client-side Toast notification manager
+            function showToast(msg, type = 'info') {
+                let toast = document.getElementById('app-notification');
+                if(!toast) {
+                    toast = document.createElement('div');
+                    toast.id = 'app-notification';
+                    toast.className = 'fixed bottom-md right-md p-md glass-panel z-50 transition-all transform translate-y-10 opacity-0 pointer-events-none w-80 shadow-2xl';
+                    document.body.appendChild(toast);
+                }
+                
+                let icon = 'info';
+                let iconColor = 'text-primary';
+                if (type === 'success') { icon = 'check_circle'; iconColor = 'text-tertiary'; }
+                if (type === 'error') { icon = 'error'; iconColor = 'text-error'; }
+                if (type === 'warning') { icon = 'warning'; iconColor = 'text-secondary'; }
+                
+                toast.innerHTML = `
+                    <div class="flex items-start gap-sm">
+                        <span class="material-symbols-outlined ${iconColor}">${icon}</span>
+                        <div class="flex-1">
+                            <p class="text-xs font-bold uppercase tracking-wider ${iconColor}">${type}</p>
+                            <p class="text-xs text-on-surface mt-0.5">${msg}</p>
+                        </div>
+                    </div>
+                `;
+                
+                toast.classList.remove('translate-y-10', 'opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                    toast.classList.add('translate-y-10', 'opacity-0', 'pointer-events-none');
+                }, 4000);
+            }
+        });
+    </script>
+</body></html>
