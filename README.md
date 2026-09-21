@@ -61,6 +61,14 @@ python attendance_system.py
 **Rebuild Model from DB** is only needed if you've edited the database
 outside the app; normal registration keeps the live model in sync on its own.
 
+## Vercel deployment (static frontend)
+
+This repository now includes `vercel.json` so `/` is served from:
+
+`frontend/stitch_glassmorphism_smart_attendance_system/dashboard_desktop/code.html`
+
+In Vercel project settings, keep **Root Directory** empty (repository root).
+
 ## Known limitations / suggested next steps
 
 These were flagged in the original review and are still open — scoped out

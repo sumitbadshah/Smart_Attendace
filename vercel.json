@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/frontend/stitch_glassmorphism_smart_attendance_system/dashboard_desktop/code.html"
+    }
+  ]
+}
